@@ -1,1 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	         http://www.springframework.org/schema/beans/spring-beans.xsd
+	         http://www.springframework.org/schema/lang
+	         http://www.springframework.org/schema/lang/spring-lang.xsd      
+	         http://www.springframework.org/schema/tx   
+	         http://www.springframework.org/schema/tx/spring-tx.xsd    
+	         http://www.springframework.org/schema/aop     
+	         http://www.springframework.org/schema/aop/spring-aop.xsd    
+	         http://www.springframework.org/schema/mvc     
+	         http://www.springframework.org/schema/mvc/spring-mvc.xsd   
+	         http://www.springframework.org/schema/context     
+	         http://www.springframework.org/schema/context/spring-context.xsd
+	         http://www.springframework.org/schema/cache
+	         http://www.springframework.org/schema/cache/spring-cache.xsd
+	         http://www.springframework.org/schema/task 
+	         http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<!-- 注解驱动 -->
+    <mvc:annotation-driven />
+ 
+    <!-- 扫描包 -->
+    <context:component-scan base-package="com.liuxue.cms" />
+    
+    <tx:annotation-driven />
+
+	<task:annotation-driven />
+	
+	<cache:annotation-driven key-generator="keyGeneratorService"/>
+
+	<mvc:resources mapping="/static/**" location="/WEB-INF/static/"
+		cache-period="31556926" />
+	<mvc:resources mapping="/upload/**" location="/upload/"
+		cache-period="31556926" />
+		
+		
+ 
+    <!-- 用于页面跳转,根据请求的不同跳转到不同页面，如请求index.do则跳转到/WEB-INF/jsp/index.jsp -->
+    <bean id="findJsp"
+        class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
+ 
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="index.do">findJsp</prop><!-- 表示index.do转向index.jsp页面 -->
+                <prop key="first.do">findJsp</prop><!-- 表示first.do转向first.jsp页面 -->
+            </props>
+        </property>
+    </bean>
+ 
+    <!-- 视图解析 -->
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <!-- 返回的视图模型数据需要经过jstl来处理 -->
+        <property name="viewClass"
+            value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+ 
+    <!-- 对静态资源文件的访问 不支持访问WEB-INF目录 -->
+    <mvc:default-servlet-handler />
+ 
+    <bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+ 
+    <!-- 输出对象转JSON支持 -->
+    <bean id="jsonConverter"
+        class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
+    <bean
+        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="stringConverter"/>
+                <ref bean="jsonConverter" />
+            </list>
+        </property>
+    </bean>
+    
+    
+	<!-- 图片上传的配置 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 最大值4M -->
+		<property name="maxUploadSize" value="209715200" />
+		<property name="resolveLazily" value="true" />
+	</bean>
+
+	
+
+</beans>
