@@ -8,11 +8,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	         http://www.springframework.org/schema/beans/spring-beans.xsd
 	         http://www.springframework.org/schema/lang
-	         http://www.springframework.org/schema/lang/spring-lang.xsd      
+	         http://www.springframework.org/schema/lang/spring-lang.xsd
 	         http://www.springframework.org/schema/tx   
 	         http://www.springframework.org/schema/tx/spring-tx.xsd    
-	         http://www.springframework.org/schema/aop     
-	         http://www.springframework.org/schema/aop/spring-aop.xsd    
+	         http://www.springframework.org/schema/aop
+	         http://www.springframework.org/schema/aop/spring-aop.xsd
 	         http://www.springframework.org/schema/mvc     
 	         http://www.springframework.org/schema/mvc/spring-mvc.xsd   
 	         http://www.springframework.org/schema/context     
@@ -20,19 +20,20 @@
 	         http://www.springframework.org/schema/cache
 	         http://www.springframework.org/schema/cache/spring-cache.xsd
 	         http://www.springframework.org/schema/task 
-	         http://www.springframework.org/schema/task/spring-task.xsd">
+	         http://www.springframework.org/schema/task/spring-task.xsd"
+		      default-lazy-init="true">
 
 	<!-- 注解驱动 -->
     <mvc:annotation-driven />
  
     <!-- 扫描包 -->
-    <context:component-scan base-package="com.liuxue.cms" />
+	<context:component-scan base-package="com.liuxue.cms.modules"/>
     
     <tx:annotation-driven />
 
 	<task:annotation-driven />
 	
-	<cache:annotation-driven key-generator="cacheManager"/>
+	<!--<cache:annotation-driven key-generator="cacheManager"/>-->
 
 	<!-- spring自己的缓存管理器，这里定义了两个缓存位置名称 ，既注解中的value -->
 	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
@@ -103,21 +104,47 @@
         <property name="filters" value="stat"/>
     </bean>
 
-	<!-- 创建SqlSessionFactory，同时指定数据源 -->
+	<!-- mybatis文件配置，扫描所有mapper文件,不需要mybatis的配置映射文件；-->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:/mappings/*.xml"/>
 	</bean>
+
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.liuxue.cms.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+		<property name="annotationClass" value="com.liuxue.cms.common.MyBatisDao"/>
+	</bean>
+
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
 	<!-- 配置事务管理器 -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 
-	<!--创建数据映射器，数据映射器必须为接口 -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="annotationClass" value="org.springframework.stereotype.Repository" />
-		<property name="basePackage" value="com.liuxue.cms.dao" />
-	</bean>
+	<!--配置事务传播特性-->
+	<tx:advice id="transViewAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<!--配置参与事务的类-->
+	<aop:config>
+		<aop:pointcut id="transServicePointcut" expression="execution(* com.liuxue.cms.modules.service.impl..*(..))"/>
+		<aop:advisor pointcut-ref="transServicePointcut" advice-ref="transViewAdvice"/>
+	</aop:config>
+
+	<!--&lt;!&ndash;创建数据映射器，数据映射器必须为接口 &ndash;&gt;-->
+	<!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+		<!--<property name="annotationClass" value="org.springframework.stereotype.Repository" />-->
+		<!--<property name="basePackage" value="com.liuxue.cms.dao" />-->
+	<!--</bean>-->
 
 </beans>

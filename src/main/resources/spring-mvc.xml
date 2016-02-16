@@ -22,7 +22,10 @@
 	         http://www.springframework.org/schema/task 
 	         http://www.springframework.org/schema/task/spring-task.xsd">
 
-
+	<!-- 使用Annotation自动注册Bean,只扫描@Controller -->
+	<context:component-scan base-package="com.liuxue.cms.modules.controller" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 
 	<bean id="stringConverter"
 		class="org.springframework.http.converter.StringHttpMessageConverter">
