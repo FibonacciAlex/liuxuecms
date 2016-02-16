@@ -1,6 +1,5 @@
 package com.liuxue.cms.util;
 
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
