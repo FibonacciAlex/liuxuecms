@@ -276,9 +276,11 @@
 		<resource>
 			<directory>src/main/resources</directory>
 			<includes>
-				<include>applicationContext.xml</include>
+				<include>*.xml</include>
+				<include>*.properties</include>
+				<!-- <include>applicationContext.xml</include>
 				<include>log4j.properties</include>
-				<include>application.properties</include>
+				<include>application.properties</include> -->
 			</includes>
 		</resource>
 	</resources>
