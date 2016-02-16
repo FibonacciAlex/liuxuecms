@@ -3,7 +3,7 @@ package com.liuxue.cms.modules.entiy.request;
 /**
  * Created by Sandwich on 2016/2/16.
  */
-public class ParameterBean {
+public class Bean {
     private String name;
     private String sex;
 
