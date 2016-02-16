@@ -22,7 +22,13 @@
 	         http://www.springframework.org/schema/task 
 	         http://www.springframework.org/schema/task/spring-task.xsd">
 
+	<!--配置注解-->
+	<context:annotation-config/>
 
+	<!-- 使用Annotation自动注册Bean,只扫描@Controller -->
+	<context:component-scan base-package="com.liuxue.cms.modules.controller" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 
 	<bean id="stringConverter"
 		class="org.springframework.http.converter.StringHttpMessageConverter">
@@ -50,27 +56,16 @@
 	<!-- 图片上传的配置 -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- 最大值4M -->
+		<!-- 最大值4M --> 
 		<property name="maxUploadSize" value="209715200" />
 		<property name="resolveLazily" value="true" />
 	</bean>
 
-	<!-- 用于页面跳转,根据请求的不同跳转到不同页面，如请求index.do则跳转到/WEB-INF/jsp/index.jsp -->
-	<bean id="findJsp"
-		class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
 
-	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-		<property name="mappings">
-			<props>
-				<prop key="index.do">findJsp</prop><!-- 表示index.do转向index.jsp页面 -->
-				<prop key="first.do">findJsp</prop><!-- 表示first.do转向first.jsp页面 -->
-			</props>
-		</property>
-	</bean>
 
 	<!-- 视图解析 -->
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<!-- 返回的视图模型数据需要经过jstl来处理 -->
+		<!-- 返回的视图模型数据需要经过jstl来处理  -->
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/jsp/" />
