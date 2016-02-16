@@ -1,0 +1,10 @@
+com\liuxue\cms\common\Result.class
+com\liuxue\cms\modules\service\PersonServiceImpl.class
+com\liuxue\cms\modules\entiy\PersonInfoPO.class
+com\liuxue\cms\modules\entiy\request\Bean.class
+com\liuxue\cms\common\Constants.class
+com\liuxue\cms\modules\controller\BaseController.class
+com\liuxue\cms\common\BaseService.class
+com\liuxue\cms\util\PropertyUtils.class
+com\liuxue\cms\modules\controller\testController.class
+com\liuxue\cms\common\MyBatisDao.class
