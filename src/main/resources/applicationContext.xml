@@ -90,7 +90,7 @@
 	<!--<cache:annotation-driven key-generator="cacheManager"/>-->
 
 	<!-- spring自己的缓存管理器，这里定义了两个缓存位置名称 ，既注解中的value -->
-	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+	<!-- <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
 		<property name="caches">
 			<set>
 				<bean
@@ -110,6 +110,6 @@
 					p:name="media" />
 			</set>
 		</property>
-	</bean>
+	</bean> -->
 
 </beans>
