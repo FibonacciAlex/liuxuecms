@@ -21,7 +21,7 @@
 	         http://www.springframework.org/schema/cache/spring-cache.xsd
 	         http://www.springframework.org/schema/task 
 	         http://www.springframework.org/schema/task/spring-task.xsd"
-		      default-lazy-init="true">
+		      default-lazy-init="false">
 
 	<!-- 引入配置文件 -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -62,8 +62,8 @@
 		<property name="poolPreparedStatements" value="false"/>
 		<property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
 
-		<!--&lt;!&ndash; 配置监控统计拦截的filters &ndash;&gt;-->
-		<!--<property name="filters" value="stat"/>-->
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="stat"/>
 	</bean>
 
 	<!-- mybatis文件配置，扫描所有mapper文件,不需要mybatis的配置映射文件；-->
@@ -74,11 +74,6 @@
 		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
 	</bean>
 
-	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
-	<!--<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
-		<!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
-		<!--<property name="annotationClass" value="com.liuxue.cms.common.MyBatisDao"/>-->
-	<!--</bean>-->
 	<context:component-scan base-package="com.liuxue.cms.modules.service"/>
 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
@@ -90,12 +85,9 @@
 
 	<bean id="trans_1" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="cmsDataSource"/>
+		<qualifier value="cms"/>
 	</bean>
 
-    <!--<tx:annotation-driven />-->
-
-	<!--<task:annotation-driven />-->
-	
 	<!--<cache:annotation-driven key-generator="cacheManager"/>-->
 
 	<!-- spring自己的缓存管理器，这里定义了两个缓存位置名称 ，既注解中的value -->
