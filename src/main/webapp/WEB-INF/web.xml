@@ -61,9 +61,9 @@
 	</listener>
 	
 	<!-- Spring启动监听 -->
-    <listener>
-        <listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
-    </listener>
+    <!--<listener>-->
+        <!--<listener-class>org.springframework.web.util.WebAppRootListener</listener-class>-->
+    <!--</listener>-->
 	
 	
 	<!-- 其他配置 -->
@@ -75,6 +75,16 @@
 		<welcome-file>index.htm</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+
+	<!-- druid web 监控 -->
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
 
 	<error-page>
 		<error-code>404</error-code>
