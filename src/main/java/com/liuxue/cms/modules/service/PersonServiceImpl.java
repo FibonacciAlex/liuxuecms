@@ -13,10 +13,7 @@ import java.util.Map;
 @Service("personServiceImpl")
 public class PersonServiceImpl extends BaseService{
     public List<PersonInfoPO> getPersonInfo(Map map) throws Exception{
-        System.out.println("...");
-        System.out.println(getSqlSessionTemplate().selectList("queryInfo"));
-        System.out.println("============");
-        return getSqlSessionTemplate().selectList("queryInfo");
+        return getSqlSessionTemplate().selectList("queryInfo",map);
     }
 
 }
