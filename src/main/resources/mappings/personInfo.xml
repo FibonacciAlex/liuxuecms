@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liuxue.cms.modules.service.PersonServiceImpl">
 
-    <select id="queryInfo" parameterType="java.util.Map"  resultType="com.liuxue.cms.modules.entiy.PersonInfoPO">
-        select * from person_info
+    <select id="query" resultType="java.lang.Integer">
+        select count(0) from person_info
     </select>
 </mapper>
