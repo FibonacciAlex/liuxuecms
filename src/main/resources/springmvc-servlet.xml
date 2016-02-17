@@ -21,6 +21,7 @@
 	         http://www.springframework.org/schema/cache/spring-cache.xsd
 	         http://www.springframework.org/schema/task 
 	         http://www.springframework.org/schema/task/spring-task.xsd">
+	         
 	<bean id="customObjectMapper" class="com.liuxue.cms.util.CustomObjectMapper"/>
 	<!-- 注解驱动 -->
 	<mvc:annotation-driven>
