@@ -11,14 +11,18 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath*:applicationContext.xml</param-value>
     </context-param>
-	
+	<!--Sandwich start-->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!--Sandwich end-->
 		<!-- Spring MVC 核心控制器 DispatcherServlet 配置 -->
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring-mvc.xml</param-value>
+            <param-value>classpath:springmvc-servlet.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -51,7 +55,7 @@
 		<param-value>classpath:log4j.properties</param-value>
 	</context-param>
 
-	<!-- 以Listener方式启动LOG4j -->
+	<!--以Listener方式启动LOG4j-->
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
@@ -81,6 +85,6 @@
 		<error-code>500</error-code>
 		<location>/500.htm</location>
 	</error-page>
-	
+
 	
 </web-app>
