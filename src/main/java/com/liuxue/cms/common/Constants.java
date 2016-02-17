@@ -6,5 +6,6 @@ package com.liuxue.cms.common;
 public class Constants {
     public static String RESULT_CODE_SUCCESS = "200";
     public static String RESULT_CODE_ERROR = "0";
+    public static String DATEPATTERN = "yyyy-mm-dd HH:mm:ss";
 
 }
