@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +19,8 @@ import java.util.Map;
 /**
  * Created by Sandwich on 2016/2/15.
  */
-@RestController
-@RequestMapping("/cms")
+@Controller
+@RequestMapping(value="/iface/liuxue")
 public class testController extends BaseController {
 
     public final static Logger logger = Logger.getLogger(testController.class);
@@ -34,16 +33,20 @@ public class testController extends BaseController {
      * @param bean
      * @return
      */
-    @RequestMapping(value="/personInfo" , produces ="application/json")
+    @RequestMapping(value="/personInfo" , method=RequestMethod.POST , produces ="application/json")
     @ResponseBody
-    public Result personInfo(@RequestBody Bean bean) throws Exception {
-        logger.info("=====");
+    public Result personInfo(@RequestBody Bean bean) {
         String name = bean.getName();
         String sex = bean.getSex();
         Map<String,String> map = new HashMap<String,String>();
         map.put("name",name);
         map.put("sex", sex);
-        List<PersonInfoPO> list =  personServiceImpl.getPersonInfo(map);
+        List<PersonInfoPO> list = null;
+        try {
+            list = personServiceImpl.queryInfo(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return new Result("200","ok",list);
     }
 }
