@@ -11,7 +11,7 @@
 
 	<!-- 系统常量 start -->
   <properties>
-  	<webapp.port>8080</webapp.port>
+  	<webapp.port>8080</webapp.port><!-- 如果交给tomcat启动，后面三个参数会不生效 -->
   	<webapp.stopPort>9090</webapp.stopPort>
   	<webapp.path>/</webapp.path>
   	<!-- 指定编码方式 -->

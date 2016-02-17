@@ -20,6 +20,7 @@ import java.util.Map;
  * Created by Sandwich on 2016/2/15.
  */
 @Controller
+@RequestMapping("/cms")
 public class testController extends BaseController {
 
     public final static Logger logger = Logger.getLogger(testController.class);
