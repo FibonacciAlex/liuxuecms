@@ -8,10 +8,14 @@
 <script>
 
 $("button").click(function() {
+	var str = {"name":"aaa","sex":"2"};
+	
 	$.ajax({
-		url:'/cms/personInfo',
+		url:'/iface/liuxue/personInfo',
+		type:'post',
 		dataType:'json',
-		data:{name:'saddf',sex:'2'},
+		contentType:"application/json;charset=utf-8",
+		data:JSON.stringify(str),//×ªÎªjson×Ö·û´®
 		sucess:function(){
 			alert("--------------");
 		}

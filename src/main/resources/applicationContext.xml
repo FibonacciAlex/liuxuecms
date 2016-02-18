@@ -21,7 +21,7 @@
 	         http://www.springframework.org/schema/cache/spring-cache.xsd
 	         http://www.springframework.org/schema/task 
 	         http://www.springframework.org/schema/task/spring-task.xsd"
-		      default-lazy-init="false">
+		      default-lazy-init="true">
 
 	<!-- 引入配置文件 -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -62,17 +62,23 @@
 		<property name="poolPreparedStatements" value="false"/>
 		<property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
 
-		<!-- 配置监控统计拦截的filters -->
-		<property name="filters" value="stat"/>
+		<!--&lt;!&ndash; 配置监控统计拦截的filters &ndash;&gt;-->
+		<!--<property name="filters" value="stat"/>-->
 	</bean>
 
 	<!-- mybatis文件配置，扫描所有mapper文件,不需要mybatis的配置映射文件；-->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="cmsDataSource" />
+		<!-- 自动扫描mapping.xml文件 -->
 		<property name="mapperLocations" value="classpath*:/mappings/personInfo.xml"/>
 		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
 	</bean>
 
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<!--<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+		<!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
+		<!--<property name="annotationClass" value="com.liuxue.cms.common.MyBatisDao"/>-->
+	<!--</bean>-->
 	<context:component-scan base-package="com.liuxue.cms.modules.service"/>
 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
@@ -84,32 +90,35 @@
 
 	<bean id="trans_1" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="cmsDataSource"/>
-		<qualifier value="cms"/>
 	</bean>
 
+    <!--<tx:annotation-driven />-->
+
+	<!--<task:annotation-driven />-->
+	
 	<!--<cache:annotation-driven key-generator="cacheManager"/>-->
 
 	<!-- spring自己的缓存管理器，这里定义了两个缓存位置名称 ，既注解中的value -->
-	<!-- <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
-		<property name="caches">
-			<set>
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
-					p:name="default" />
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
-					p:name="config" />
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
-					p:name="folder" />
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
-					p:name="article" />
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
-					p:name="media" />
-			</set>
-		</property>
-	</bean> -->
+	<!--<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">-->
+		<!--<property name="caches">-->
+			<!--<set>-->
+				<!--<bean-->
+					<!--class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"-->
+					<!--p:name="default" />-->
+				<!--<bean-->
+					<!--class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"-->
+					<!--p:name="config" />-->
+				<!--<bean-->
+					<!--class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"-->
+					<!--p:name="folder" />-->
+				<!--<bean-->
+					<!--class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"-->
+					<!--p:name="article" />-->
+				<!--<bean-->
+					<!--class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"-->
+					<!--p:name="media" />-->
+			<!--</set>-->
+		<!--</property>-->
+	<!--</bean>-->
 
 </beans>
